@@ -8,6 +8,7 @@ import TableMenu from "@/components/DropdownMenu/TableMenu";
 import {formatDate} from "@/app/Utils/DateUtils";
 import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
+import {makeChangeListener} from "@/app/Utils/formUtils";
 
 
 export type User = {
@@ -24,6 +25,7 @@ export default function UserTable() {
     const [users, setUsers] = useState<User[]>([]);
     const [isLoaded, setLoaded] = useState(false);
     const [error, setError] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -49,6 +51,7 @@ export default function UserTable() {
         fetchUsers();
     }, []);
 
+    const searchTermChanger = makeChangeListener(setSearchTerm);
 
     const getContents = () => {
         const isLoading = !isLoaded && !error;
@@ -67,11 +70,12 @@ export default function UserTable() {
         const roleClass = classNames(styles.cell, styles.roleColumn);
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
-   
+
         return (
             <div>
                 <div className={styles.tableFilterLine}>
-                <TextField.Root placeholder="Search by name…" className={styles.searchBox}>
+                <TextField.Root placeholder="Search by name…" className={styles.searchBox}
+                                value={searchTerm} onChange={searchTermChanger} >
                     <TextField.Slot>
                         <MagnifyingGlassIcon height="16" width="16" />
                     </TextField.Slot>
@@ -81,6 +85,7 @@ export default function UserTable() {
                     Add User
 
                 </Button>
+                    {searchTerm}
                 </div>
 
                 <div style={{
