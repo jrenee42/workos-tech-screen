@@ -1,5 +1,6 @@
 import Image from "next/image";
 import RoleTable from "@/components/RoleTable";
+import UserTable from "@/components/UserTable";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
           </li>
           <li>Save and see your changes instantly. ack ack ack</li>
           <RoleTable />
+          <UserTable />
 
         </ol>
 
