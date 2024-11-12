@@ -13,12 +13,10 @@ export default function Home() {
 
           <Box pt="3">
               <Tabs.Content value="users">
-                  <Text size="2">User table here....</Text>
                   <UserTable />
               </Tabs.Content>
 
               <Tabs.Content value="roles">
-                  <Text size="2">Roles here....</Text>
                   <RoleTable />
               </Tabs.Content>
           </Box>

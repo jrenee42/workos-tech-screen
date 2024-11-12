@@ -1,14 +1,15 @@
 'use client';
 import UserPhoto from "@/components/UserPhoto";
 import { useEffect, useState } from 'react';
-import { Table } from "@radix-ui/themes";
+import { Table, Spinner } from "@radix-ui/themes";
 import styles from './userStyles.module.css';
-import {LoadingSpinner} from "@/components/LoadingSpinner";
+import ErrorMessage from "@/components/ErrorText";
+
 
 export default function UserTable() {
     const [users, setUsers] = useState([]);
     const [isLoaded, setLoaded] = useState(false);
-    const [error, setError] = useState<any>(null);
+    const [error, setError] = useState<string>('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -20,20 +21,31 @@ export default function UserTable() {
                     setUsers(data.data);
                 } else {
                     console.error('Failed to fetch users');
+                    setError('data not available');
                 }
                 setLoaded(true);
             } catch (error) {
                 console.error('Error:', error);
                 setLoaded(true);
-                setError(error);
+                // @ts-ignore
+                setError(error?.message || "There was an error on the server loading the data; please try again and contact your administrator if this continues");
             }
         };
 
         fetchUsers();
     }, []);
 
-    if (!isLoaded){
-        return <LoadingSpinner/>;
+    const isLoading = !isLoaded && !error;
+    const hasError = isLoaded && error;
+
+    if (isLoading){
+        return (<div style={{display: "flex", flexDirection: "column"}}>
+            Loading....
+            <Spinner size="3"/>
+        </div>);
+    }
+    if (hasError) {
+        return <ErrorMessage message={error}/>;
     }
     // todo: make User type!
     return (
