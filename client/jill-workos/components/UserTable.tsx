@@ -9,6 +9,7 @@ import {formatDate} from "@/app/Utils/DateUtils";
 import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import {makeChangeListener} from "@/app/Utils/formUtils";
+import DebouncedTextField from "@/components/basic/DebouncedTextField";
 
 
 export type User = {
@@ -71,15 +72,16 @@ export default function UserTable() {
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
 
+        const doUserSearch = (name:string) => {
+            console.log('would do user search here....', name);
+        };
+
+        const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />
         return (
             <div>
                 <div className={styles.tableFilterLine}>
-                <TextField.Root placeholder="Search by name…" className={styles.searchBox}
-                                value={searchTerm} onChange={searchTermChanger} >
-                    <TextField.Slot>
-                        <MagnifyingGlassIcon height="16" width="16" />
-                    </TextField.Slot>
-                </TextField.Root>
+                    <DebouncedTextField placeholder={"Search by name…"} className={styles.searchBox}
+                               icon={searchIcon}  onDebouncedChange={doUserSearch} />
                 <Button>
                     <PlusIcon/>
                     Add User
