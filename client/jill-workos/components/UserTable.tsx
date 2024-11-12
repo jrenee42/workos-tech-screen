@@ -40,7 +40,7 @@ export default function UserTable() {
             <Table.Body>
                 {users.map((user, index) => (
                     <Table.Row key={index}>
-                    <Table.RowHeaderCell>  <UserPhoto url={user.photo}/>  {user.first} {user.last} </Table.RowHeaderCell>
+                    <Table.RowHeaderCell>  <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/> </Table.RowHeaderCell>
                         <Table.Cell> hi </Table.Cell>
                     <Table.Cell> there</Table.Cell>
                         <Table.Cell> ...</Table.Cell>
