@@ -69,9 +69,9 @@ export default function UserTable() {
         const hasError = isLoaded && error;
 
         if (isLoading) {
-            return (<div style={{display: "flex", flexDirection: "column"}}>
+            return (<div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                 Loading....
-                <Spinner size="3"/>
+                <Spinner  style={{width:100, height:100}}/>
             </div>);
         }
         if (hasError) {
@@ -85,9 +85,6 @@ export default function UserTable() {
 
 
         return (
-
-
-
                 <div style={{
                 border: '1px solid #DDDDE3', padding: '8px',
                 display: 'inline-block', borderRadius: '9px'
@@ -106,6 +103,7 @@ export default function UserTable() {
                     <Table.Body>
                         {users.map((user, index) => (
                             <Table.Row key={index}>
+
                                 <Table.RowHeaderCell>
                                     <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/>
                                 </Table.RowHeaderCell>
