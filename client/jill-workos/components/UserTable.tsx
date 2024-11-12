@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {  Button } from "@radix-ui/themes";
+import {  Button, Table } from "@radix-ui/themes";
 
 export default function UserTable() {
     const [users, setUsers] = useState([]);
@@ -26,14 +26,27 @@ export default function UserTable() {
     }, []);
 
     return (
-        <div>
-            <h1>Users</h1>
-            <Button> hello there </Button>
-            <ul>
+        <Table.Root>
+            <Table.Header>
+                <Table.Row>
+                    <Table.ColumnHeaderCell>User</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Joined</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>&nbsp</Table.ColumnHeaderCell>
+                </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
                 {users.map((user, index) => (
-                    <li key={index}>{user.first} {user.last}</li>
+                    <Table.Row key={index}>
+                    <Table.RowHeaderCell>    {user.first} {user.last} </Table.RowHeaderCell>
+                        <Table.Cell> hi </Table.Cell>
+                    <Table.Cell> there</Table.Cell>
+                        <Table.Cell> ...</Table.Cell>
+
+                    </Table.Row>
                 ))}
-            </ul>
-        </div>
-    );
+            </Table.Body>
+        </Table.Root>
+        );
 }
