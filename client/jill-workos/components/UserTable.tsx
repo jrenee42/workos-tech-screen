@@ -1,7 +1,7 @@
 'use client';
-
+import UserPhoto from "@/components/UserPhoto";
 import { useEffect, useState } from 'react';
-import {  Button, Table } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
 
 export default function UserTable() {
     const [users, setUsers] = useState([]);
@@ -25,6 +25,7 @@ export default function UserTable() {
         fetchUsers();
     }, []);
 
+    // todo: make User type!
     return (
         <Table.Root>
             <Table.Header>
@@ -32,14 +33,14 @@ export default function UserTable() {
                     <Table.ColumnHeaderCell>User</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Joined</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>&nbsp</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>&nbsp;</Table.ColumnHeaderCell>
                 </Table.Row>
             </Table.Header>
 
             <Table.Body>
                 {users.map((user, index) => (
                     <Table.Row key={index}>
-                    <Table.RowHeaderCell>    {user.first} {user.last} </Table.RowHeaderCell>
+                    <Table.RowHeaderCell>  <UserPhoto url={user.photo}/>  {user.first} {user.last} </Table.RowHeaderCell>
                         <Table.Cell> hi </Table.Cell>
                     <Table.Cell> there</Table.Cell>
                         <Table.Cell> ...</Table.Cell>
