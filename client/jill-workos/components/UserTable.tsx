@@ -56,9 +56,9 @@ export default function UserTable() {
 
         const doUserSearch = (name:string) => {
             console.log('would do user search here....', name);
-            // setLoaded(false);
-            // const searchUrl = addParamToUrl(userUrl, 'search', name);
-            // fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
+            setLoaded(false);
+            const searchUrl = addParamToUrl(userUrl, 'search', name);
+            fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
         };
 
         const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />

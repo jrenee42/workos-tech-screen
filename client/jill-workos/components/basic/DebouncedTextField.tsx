@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {TextField} from "@radix-ui/themes";
 
 type Props = {
@@ -10,31 +10,32 @@ type Props = {
 
 const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placeholder, className }) => {
     const [inputValue, setInputValue] = useState('');
-    const isFirstRender = useRef(true);
-
-    useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-            return;
-        }
-
-        const handler = setTimeout(() => {
-            onDebouncedChange(inputValue);
-        }, 200);
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [inputValue, onDebouncedChange]);
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
+
+        // Clear any existing debounce timer
+        if (debounceTimeout.current) {
+            clearTimeout(debounceTimeout.current);
+        }
+
+        // Set a new debounce timer
+        debounceTimeout.current = setTimeout(() => {
+            onDebouncedChange(event.target.value);
+        }, 200);
     };
 
     const iconPart = icon ? <TextField.Slot> {icon}</TextField.Slot> : null;
 
     return  (<TextField.Root placeholder={placeholder} className={className}
-                            value={inputValue} onChange={handleChange} >
+                            value={inputValue} onChange={handleChange}
+                             onKeyDown={() => {
+                                 if (debounceTimeout.current) {
+                                     clearTimeout(debounceTimeout.current); // Reset debounce if typing continues
+                                 }
+                             }}
+    >
         {iconPart}
     </TextField.Root>);
 
