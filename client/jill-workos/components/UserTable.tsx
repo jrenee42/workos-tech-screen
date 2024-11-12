@@ -6,9 +6,18 @@ import styles from './userStyles.module.css';
 import ErrorMessage from "@/components/ErrorText";
 import TableMenu from "@/components/DropdownMenu/TableMenu";
 
+export type User = {
+    createdAt: Date;
+    first: string;
+    id: string;
+    last : string;
+    photo: string;
+    roleId : string;
+    updatedAt: Date;
+}
 
 export default function UserTable() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [isLoaded, setLoaded] = useState(false);
     const [error, setError] = useState<string>('');
 
@@ -19,7 +28,7 @@ export default function UserTable() {
                 if (response.ok) {
                     const data = await response.json();
                     console.log("got data???", data);
-                    setUsers(data.data);
+                    setUsers(data.data as User[]);
                 } else {
                     console.error('Failed to fetch users');
                     setError('Data not Available.  Please refresh and try again.');
@@ -69,7 +78,7 @@ export default function UserTable() {
                     <Table.RowHeaderCell>  <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/> </Table.RowHeaderCell>
                         <Table.Cell> hi 22 </Table.Cell>
                     <Table.Cell> there</Table.Cell>
-                        <Table.Cell> <TableMenu/> </Table.Cell>
+                        <Table.Cell> <TableMenu user={user}/> </Table.Cell>
 
                     </Table.Row>
                 ))}
