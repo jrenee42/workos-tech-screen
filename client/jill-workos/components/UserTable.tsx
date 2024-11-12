@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import {makeChangeListener} from "@/app/Utils/formUtils";
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
+import {fetchData} from "@/app/Utils/DataFetcher";
 
 
 export type User = {
@@ -26,33 +27,12 @@ export default function UserTable() {
     const [users, setUsers] = useState<User[]>([]);
     const [isLoaded, setLoaded] = useState(false);
     const [error, setError] = useState<string>('');
-    const [searchTerm, setSearchTerm] = useState('');
+   //  const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch('http://localhost:3002/users');
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("got data???", data);
-                    setUsers(data.data as User[]);
-                } else {
-                    console.error('Failed to fetch users');
-                    setError('Data not Available.  Please refresh and try again.');
-                }
-                setLoaded(true);
-            } catch (error) {
-                console.error('Error:', error);
-                setLoaded(true);
-                // @ts-ignore
-                setError(error?.message || "There was an error on the server loading the data; please try again and contact your administrator if this continues");
-            }
-        };
-
-        fetchUsers();
+        fetchData<User>('http://localhost:3002/users', setUsers, setError, () => {setLoaded(true);});
     }, []);
 
-    const searchTermChanger = makeChangeListener(setSearchTerm);
 
     const getContents = () => {
         const isLoading = !isLoaded && !error;
@@ -68,6 +48,7 @@ export default function UserTable() {
             return <ErrorMessage message={error}/>;
         }
 
+        console.log('...ok; displaying: ', users);
         const roleClass = classNames(styles.cell, styles.roleColumn);
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
@@ -87,7 +68,7 @@ export default function UserTable() {
                     Add User
 
                 </Button>
-                    {searchTerm}
+
                 </div>
 
                 <div style={{
