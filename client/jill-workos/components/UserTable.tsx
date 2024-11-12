@@ -2,9 +2,9 @@
 import UserPhoto from "@/components/UserPhoto";
 import { useEffect, useState } from 'react';
 import { Table, Spinner } from "@radix-ui/themes";
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import styles from './userStyles.module.css';
 import ErrorMessage from "@/components/ErrorText";
+import TableMenu from "@/components/DropdownMenu/TableMenu";
 
 
 export default function UserTable() {
@@ -50,7 +50,8 @@ export default function UserTable() {
     }
     // todo: make User type!
     return (
-        <div className={styles.tableContainer}>
+        <div style={{border:'1px solid #DDDDE3',  padding: '8px',
+            display: 'inline-block', borderRadius: '9px'}}>
             hi there
         <Table.Root>
             <Table.Header>
@@ -68,7 +69,7 @@ export default function UserTable() {
                     <Table.RowHeaderCell>  <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/> </Table.RowHeaderCell>
                         <Table.Cell> hi 22 </Table.Cell>
                     <Table.Cell> there</Table.Cell>
-                        <Table.Cell> <DotsHorizontalIcon /></Table.Cell>
+                        <Table.Cell> <TableMenu/> </Table.Cell>
 
                     </Table.Row>
                 ))}
