@@ -6,10 +6,11 @@ type Props = {
     placeholder?: string;
     icon?: React.ReactNode;
     className?: string;
+    value: string;
 };
 
-const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placeholder, className }) => {
-    const [inputValue, setInputValue] = useState('');
+const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placeholder, className, value }) => {
+    const [inputValue, setInputValue] = useState(value);
     const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

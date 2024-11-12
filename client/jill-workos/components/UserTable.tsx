@@ -28,7 +28,7 @@ export default function UserTable() {
     const [users, setUsers] = useState<User[]>([]);
     const [isLoaded, setLoaded] = useState(false);
     const [error, setError] = useState<string>('');
-   //  const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         fetchData<User>('http://localhost:3002/users', setUsers, setError, () => {setLoaded(true);});
@@ -57,6 +57,7 @@ export default function UserTable() {
         const doUserSearch = (name:string) => {
             console.log('would do user search here....', name);
             setLoaded(false);
+            setSearchTerm(name);
             const searchUrl = addParamToUrl(userUrl, 'search', name);
             fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
         };
@@ -66,7 +67,7 @@ export default function UserTable() {
             <div>
                 <div className={styles.tableFilterLine}>
                     <DebouncedTextField placeholder={"Search by name…"} className={styles.searchBox}
-                               icon={searchIcon}  onDebouncedChange={doUserSearch} />
+                               icon={searchIcon}  onDebouncedChange={doUserSearch}  value={searchTerm}/>
                 <Button>
                     <PlusIcon/>
                     Add User
