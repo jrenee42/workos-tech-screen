@@ -34,8 +34,37 @@ export default function UserTable() {
         fetchData<User>('http://localhost:3002/users', setUsers, setError, () => {setLoaded(true);});
     }, []);
 
+   const getSearchBar = () => {
+       const doUserSearch = (name:string) => {
+           console.log('would do user search here....', name);
+           let findAll = false;
+           if (!name) {
+               name = '';
+               findAll = true;
+           }
+           setLoaded(false);
+           setSearchTerm(name);
+           const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', name);
+           fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
+       };
 
-    const getContents = () => {
+       const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />
+       return (
+
+               <div className={styles.tableFilterLine}>
+                   <DebouncedTextField placeholder={"Search by name…"} className={styles.searchBox}
+                                       icon={searchIcon}  onDebouncedChange={doUserSearch}  value={searchTerm}/>
+                   <Button>
+                       <PlusIcon/>
+                       Add User
+
+                   </Button>
+
+               </div>
+
+       )};
+
+    const getTableContents = () => {
         const isLoading = !isLoaded && !error;
         const hasError = isLoaded && error;
 
@@ -54,27 +83,10 @@ export default function UserTable() {
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
 
-        const doUserSearch = (name:string) => {
-            console.log('would do user search here....', name);
-            setLoaded(false);
-            setSearchTerm(name);
-            const searchUrl = addParamToUrl(userUrl, 'search', name);
-            fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
-        };
 
-        const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />
         return (
-            <div>
-                <div className={styles.tableFilterLine}>
-                    <DebouncedTextField placeholder={"Search by name…"} className={styles.searchBox}
-                               icon={searchIcon}  onDebouncedChange={doUserSearch}  value={searchTerm}/>
-                <Button>
-                    <PlusIcon/>
-                    Add User
 
-                </Button>
 
-                </div>
 
                 <div style={{
                 border: '1px solid #DDDDE3', padding: '8px',
@@ -107,11 +119,14 @@ export default function UserTable() {
                     </Table.Body>
                 </Table.Root>
             </div>
-            </div>
+
 
         );
     };
 
-    return <div className={styles.tabBox}>{getContents()}</div>;
+    return <div className={styles.tabBox}>
+        {getSearchBar()}
+        {getTableContents()}
+    </div>;
 
 }
