@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import {makeChangeListener} from "@/app/Utils/formUtils";
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
-import {fetchData} from "@/app/Utils/DataFetcher";
+import {addParamToUrl, fetchData} from "@/app/Utils/DataFetcher";
 
 
 export type User = {
@@ -22,6 +22,7 @@ export type User = {
     roleId : string;
     updatedAt: Date;
 }
+const userUrl = 'http://localhost:3002/users';
 
 export default function UserTable() {
     const [users, setUsers] = useState<User[]>([]);
@@ -55,6 +56,9 @@ export default function UserTable() {
 
         const doUserSearch = (name:string) => {
             console.log('would do user search here....', name);
+            // setLoaded(false);
+            // const searchUrl = addParamToUrl(userUrl, 'search', name);
+            // fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
         };
 
         const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />

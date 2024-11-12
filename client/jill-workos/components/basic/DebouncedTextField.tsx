@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {TextField} from "@radix-ui/themes";
 
 type Props = {
@@ -10,8 +10,14 @@ type Props = {
 
 const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placeholder, className }) => {
     const [inputValue, setInputValue] = useState('');
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
         const handler = setTimeout(() => {
             onDebouncedChange(inputValue);
         }, 200);
