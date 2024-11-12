@@ -21,22 +21,59 @@ export type User = {
     photo: string;
     roleId : string;
     updatedAt: Date;
+    roleName?: string;
 }
+
+export type Role = {
+    createdAt : Date;
+    description: string;
+    id : string;
+    isDefault: boolean;
+    name : string;
+    updatedAt : Date;
+}
+
+
+
 const userUrl = 'http://localhost:3002/users';
+const roleUrl = 'http://localhost:3002/roles';
 
 export default function UserTable() {
     const [users, setUsers] = useState<User[]>([]);
+    const [roles, setRoles] = useState<Role[]>([]);
+
     const [isLoaded, setLoaded] = useState(false);
     const [error, setError] = useState<string>('');
     const [searchTerm, setSearchTerm] = useState('');
 
+    const actuallySetUsers = (usersToSet) => {
+      // make map of id=> role name for the roles
+      // then use that to set the roleName inside the user
+        // save this in the object too; in the state so that if it's already made; don't re-make it.
+        // TODO
+    };
+
+    const fetchSequentialData = async () => {
+        try {
+            // Fetch the first set of data (e.g., Users)
+            await fetchData<Role>(roleUrl, setRoles, setError);
+
+            // Fetch the second set of data (e.g., Posts) only after the first fetch is successful
+            await  fetchData<User>( userUrl, setUsers, setError, () => {setLoaded(true);});
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setError("Data not available; please refresh and try again");
+        }
+    };
+
+
     useEffect(() => {
-        fetchData<User>('http://localhost:3002/users', setUsers, setError, () => {setLoaded(true);});
+        fetchData<User>( userUrl, setUsers, setError, () => {setLoaded(true);});
     }, []);
 
    const getSearchBar = () => {
        const doUserSearch = (name:string) => {
-           console.log('would do user search here....', name);
+
            let findAll = false;
            if (!name) {
                name = '';

@@ -17,7 +17,7 @@ export async function fetchData<T>(url: string, setter: Dispatch<SetStateAction<
     }
 }
 
-export function addParamToUrl(url, param, value) {
+export function addParamToUrl(url:string, param:string, value:string) {
     const urlObj = new URL(url);
     urlObj.searchParams.set(param, value);
     return urlObj.toString();
