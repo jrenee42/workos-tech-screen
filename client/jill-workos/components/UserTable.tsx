@@ -3,9 +3,12 @@ import UserPhoto from "@/components/UserPhoto";
 import { useEffect, useState } from 'react';
 import { Table } from "@radix-ui/themes";
 import styles from './userStyles.module.css';
+import {LoadingSpinner} from "@/components/LoadingSpinner";
 
 export default function UserTable() {
     const [users, setUsers] = useState([]);
+    const [isLoaded, setLoaded] = useState(false);
+    const [error, setError] = useState<any>(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -18,14 +21,20 @@ export default function UserTable() {
                 } else {
                     console.error('Failed to fetch users');
                 }
+                setLoaded(true);
             } catch (error) {
                 console.error('Error:', error);
+                setLoaded(true);
+                setError(error);
             }
         };
 
         fetchUsers();
     }, []);
 
+    if (!isLoaded){
+        return <LoadingSpinner/>;
+    }
     // todo: make User type!
     return (
         <Table.Root>
