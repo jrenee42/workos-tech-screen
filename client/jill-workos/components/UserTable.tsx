@@ -21,8 +21,8 @@ export default function UserTable() {
                     setUsers(data.data);
                 } else {
                     console.error('Failed to fetch users');
-                    setError('data not available');
-                }
+                    setError('Data not Available.  Please refresh and try again.');
+                 }
                 setLoaded(true);
             } catch (error) {
                 console.error('Error:', error);

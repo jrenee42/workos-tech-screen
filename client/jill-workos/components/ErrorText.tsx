@@ -3,7 +3,7 @@ import { styled } from '@stitches/react';
 
 const ErrorText = styled(Text, {
     color: 'red',
-    fontSize: '13px',
+    fontSize: '24px',
     lineHeight: 1.5,
     fontWeight: 'bold',
     marginTop: '5px',
