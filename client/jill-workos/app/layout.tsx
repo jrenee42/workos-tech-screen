@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 // import { globalStyles } from './styles/globalStyles';
@@ -35,8 +35,6 @@ export default function RootLayout({
       <div className='mainContainer'>
       <Theme>
         {children}
-
-      <ThemePanel />
       </Theme>
       </div>
       </body>
