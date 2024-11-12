@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import styles from './userStyles.module.css';
 
 export default function RoleTable() {
     const [roles, setRoles] = useState([]);
@@ -25,7 +26,7 @@ export default function RoleTable() {
     }, []);
 
     return (
-        <div>
+        <div className={styles.tabBox}>
             <h1>Roles</h1>
             <ul>
                 {roles.map((role, index) => (

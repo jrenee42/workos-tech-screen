@@ -14,9 +14,7 @@ const TableMenu: React.FC<Props> = ({ user }) => {
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
-                <button className="IconButton" aria-label="Customize options">
-                    <DotsHorizontalIcon />
-                </button>
+                <DotsHorizontalIcon   style={{width: 20, height: 20}} />
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Portal>

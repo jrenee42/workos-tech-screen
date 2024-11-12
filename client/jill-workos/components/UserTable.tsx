@@ -1,10 +1,14 @@
 'use client';
 import UserPhoto from "@/components/UserPhoto";
 import { useEffect, useState } from 'react';
-import { Table, Spinner } from "@radix-ui/themes";
+import {Table, Spinner, TextField, Button} from "@radix-ui/themes";
 import styles from './userStyles.module.css';
 import ErrorMessage from "@/components/ErrorText";
 import TableMenu from "@/components/DropdownMenu/TableMenu";
+import {formatDate} from "@/app/Utils/DateUtils";
+import classNames from 'classnames';
+import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
+
 
 export type User = {
     createdAt: Date;
@@ -32,7 +36,7 @@ export default function UserTable() {
                 } else {
                     console.error('Failed to fetch users');
                     setError('Data not Available.  Please refresh and try again.');
-                 }
+                }
                 setLoaded(true);
             } catch (error) {
                 console.error('Error:', error);
@@ -45,45 +49,76 @@ export default function UserTable() {
         fetchUsers();
     }, []);
 
-    const isLoading = !isLoaded && !error;
-    const hasError = isLoaded && error;
 
-    if (isLoading){
-        return (<div style={{display: "flex", flexDirection: "column"}}>
-            Loading....
-            <Spinner size="3"/>
-        </div>);
-    }
-    if (hasError) {
-        return <ErrorMessage message={error}/>;
-    }
-    // todo: make User type!
-    return (
-        <div style={{border:'1px solid #DDDDE3',  padding: '8px',
-            display: 'inline-block', borderRadius: '9px'}}>
-            hi there
-        <Table.Root>
-            <Table.Header>
-                <Table.Row>
-                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>User</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Role</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Joined</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>&nbsp;</Table.ColumnHeaderCell>
-                </Table.Row>
-            </Table.Header>
+    const getContents = () => {
+        const isLoading = !isLoaded && !error;
+        const hasError = isLoaded && error;
 
-            <Table.Body>
-                {users.map((user, index) => (
-                    <Table.Row key={index}>
-                    <Table.RowHeaderCell>  <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/> </Table.RowHeaderCell>
-                        <Table.Cell> hi 22 </Table.Cell>
-                    <Table.Cell> there</Table.Cell>
-                        <Table.Cell> <TableMenu user={user}/> </Table.Cell>
+        if (isLoading) {
+            return (<div style={{display: "flex", flexDirection: "column"}}>
+                Loading....
+                <Spinner size="3"/>
+            </div>);
+        }
+        if (hasError) {
+            return <ErrorMessage message={error}/>;
+        }
 
-                    </Table.Row>
-                ))}
-            </Table.Body>
-        </Table.Root>
-        </div>
+        const roleClass = classNames(styles.cell, styles.roleColumn);
+        const dateClass = classNames(styles.cell, styles.dateColumn);
+        const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
+   
+        return (
+            <div>
+                <div className={styles.tableFilterLine}>
+                <TextField.Root placeholder="Search by name…" className={styles.searchBox}>
+                    <TextField.Slot>
+                        <MagnifyingGlassIcon height="16" width="16" />
+                    </TextField.Slot>
+                </TextField.Root>
+                <Button>
+                    <PlusIcon/>
+                    Add User
+
+                </Button>
+                </div>
+
+                <div style={{
+                border: '1px solid #DDDDE3', padding: '8px',
+                display: 'inline-block', borderRadius: '9px'
+            }}>
+
+                <Table.Root>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.ColumnHeaderCell className={styles.columnHeaderCell}>User</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Role</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Joined</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell className={styles.columnHeaderCell}>&nbsp;</Table.ColumnHeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        {users.map((user, index) => (
+                            <Table.Row key={index}>
+                                <Table.RowHeaderCell>
+                                    <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/>
+                                </Table.RowHeaderCell>
+
+                                <Table.Cell className={roleClass}> hi 22 </Table.Cell>
+                                <Table.Cell className={dateClass}> {formatDate(user.createdAt)}</Table.Cell>
+                                <Table.Cell className={dropdownClass}> <TableMenu user={user}/> </Table.Cell>
+
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table.Root>
+            </div>
+            </div>
+
         );
+    };
+
+    return <div className={styles.tabBox}>{getContents()}</div>;
+
 }

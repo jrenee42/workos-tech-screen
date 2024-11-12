@@ -10,6 +10,23 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 301px;
+}
+
+.cell {
+    vertical-align: middle;
+}
+
+.roleColumn {
+    width: 277px;
+}
+
+.dateColumn {
+    width: 236px;
+}
+
+.dropdownColumn {
+    width: 36px;
 }
 
 .columnHeaderCell {
@@ -25,5 +42,20 @@
 .table-container {
     border: 1px solid #DDDDE3; /* Border around the entire table */
     border-radius: 6px; /* Optional: rounded corners */
-    color: magenta;
+}
+
+.tabBox {
+    width:850px;
+}
+
+.tableFilterLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.searchBox {
+    flex-grow: 1;
+    margin-right: 8px;
+    margin-bottom: 10px;
 }
