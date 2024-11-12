@@ -2,6 +2,7 @@
 import UserPhoto from "@/components/UserPhoto";
 import { useEffect, useState } from 'react';
 import { Table } from "@radix-ui/themes";
+import styles from './userStyles.module.css';
 
 export default function UserTable() {
     const [users, setUsers] = useState([]);
@@ -30,10 +31,10 @@ export default function UserTable() {
         <Table.Root>
             <Table.Header>
                 <Table.Row>
-                    <Table.ColumnHeaderCell>User</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Joined</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>&nbsp;</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>User</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Role</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Joined</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell className={styles.columnHeaderCell}>&nbsp;</Table.ColumnHeaderCell>
                 </Table.Row>
             </Table.Header>
 

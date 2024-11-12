@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Theme } from "@radix-ui/themes";
+import { Theme, ThemePanel } from "@radix-ui/themes";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
+// import { globalStyles } from './styles/globalStyles';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,14 +26,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+      <div className='mainContainer'>
       <Theme>
         {children}
+
+      <ThemePanel />
       </Theme>
+      </div>
       </body>
     </html>
   );
