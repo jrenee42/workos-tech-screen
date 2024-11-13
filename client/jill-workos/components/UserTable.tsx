@@ -68,7 +68,7 @@ export default function UserTable() {
 
 
     useEffect(() => {
-        fetchData<User>( userUrl, setUsers, setError, () => {setLoaded(true);});
+        fetchSequentialData();
     }, []);
 
    const getSearchBar = () => {
@@ -115,7 +115,7 @@ export default function UserTable() {
             return <ErrorMessage message={error}/>;
         }
 
-        console.log('...ok; displaying: ', users);
+        console.log('...ok; displaying: ', users, roles);
         const roleClass = classNames(styles.cell, styles.roleColumn);
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
