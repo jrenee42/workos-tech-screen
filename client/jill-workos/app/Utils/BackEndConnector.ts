@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction } from "react";
-import { roleUrl, userUrl} from "@/components/UserTable";
+import {Dispatch, SetStateAction} from "react";
+import {roleUrl, userUrl} from "@/components/UserTable";
 
-export async function fetchData<T>(url: string, setter: ((items:T[])=> void), errorSetter:Dispatch<SetStateAction<string>>, onDataReturn?:()=> void  ): Promise<T[]> {
+export async function fetchData<T>(url: string, setter: ((items: T[]) => void), errorSetter: Dispatch<SetStateAction<string>>, onDataReturn?: () => void): Promise<T[]> {
     try {
         const response = await fetch(url);
         const data = await response.json();
         const items = data.data as T[];
         setter(items);
         if (onDataReturn) {
-             onDataReturn();
+            onDataReturn();
         }
         return items;
     } catch (error) {
@@ -20,7 +20,7 @@ export async function fetchData<T>(url: string, setter: ((items:T[])=> void), er
     }
 }
 
-export function addParamToUrl(url:string, param:string, value:string) {
+export function addParamToUrl(url: string, param: string, value: string) {
     const urlObj = new URL(url);
     urlObj.searchParams.set(param, value);
     return urlObj.toString();
@@ -36,10 +36,10 @@ function getFetchOptions(method: string, body?: unknown) {
             },
             body: JSON.stringify(body),
         }
-        : { method }
+        : {method}
 }
 
-export async function deleteUser(userId?:string) {
+export async function deleteUser(userId?: string) {
     if (!userId) {
         return;
     }
@@ -56,11 +56,11 @@ export async function editRoleName(roleId: string, newName: string) {
         return false;
     }
 
-const url = `${roleUrl}/${roleId}`;
+    const url = `${roleUrl}/${roleId}`;
 
     const response = await fetch(
         url,
-        getFetchOptions('PATCH', { name: newName })
+        getFetchOptions('PATCH', {name: newName})
     )
 
     return (response.status === 200);

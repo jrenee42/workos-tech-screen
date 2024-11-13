@@ -10,7 +10,7 @@ type Props = {
 };
 
 /** only call the 'onDebouncedChange' method after the user has stopped typing*/
-const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placeholder, className, value }) => {
+const DebouncedTextField: React.FC<Props> = ({onDebouncedChange, icon, placeholder, className, value}) => {
     const [inputValue, setInputValue] = useState(value);
     const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -30,13 +30,13 @@ const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placehol
 
     const iconPart = icon ? <TextField.Slot> {icon}</TextField.Slot> : null;
 
-    return  (<TextField.Root placeholder={placeholder} className={className}
+    return (<TextField.Root placeholder={placeholder} className={className}
                             value={inputValue} onChange={handleChange}
-                             onKeyDown={() => {
-                                 if (debounceTimeout.current) {
-                                     clearTimeout(debounceTimeout.current); // Reset debounce if typing continues
-                                 }
-                             }}
+                            onKeyDown={() => {
+                                if (debounceTimeout.current) {
+                                    clearTimeout(debounceTimeout.current); // Reset debounce if typing continues
+                                }
+                            }}
     >
         {iconPart}
     </TextField.Root>);

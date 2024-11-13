@@ -34,3 +34,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## Notes on if I had more time
+
+I would:
+* show better error messages
+*  add toast/snackbar notifications each time each dialog was used
+*  add pagination
+*  add i18n for all the string literals
+*  extract out a Table class or Hook to prevent the code copying I did
+   * for UserTable/RoleTable; especially the state vars  (isLoading, error)
+   * and to reuse the table styling
+* extract out one class for the dropdown menu to prevent similar code
+* add ability to edit the role description and whic is the default role
+   * I would do that by allowing the user to set one of the non-default roles to be the default;
+   * because there should always be one default role.
+   * if the backend doesn't set the new one as the default and the previous default as *not* the default, then I would handle it on the frontend
+  

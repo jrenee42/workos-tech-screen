@@ -6,7 +6,7 @@ type Props = {
     name: string;
 };
 
-export default function UserPhoto({url, name}:Props){
+export default function UserPhoto({url, name}: Props) {
     return (<div className={styles.nameBox}>
         <img src={url} className={styles.circularImage}/>
         {name}

@@ -1,7 +1,7 @@
 'use client';
 
-import {  useEffect, useState} from 'react';
-import {Table, Spinner,  Button, AlertDialog, Flex} from "@radix-ui/themes";
+import {useEffect, useState} from 'react';
+import {Table, Spinner, Button, AlertDialog, Flex} from "@radix-ui/themes";
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import classNames from 'classnames';
 
@@ -71,7 +71,9 @@ export default function UserTable() {
             mapToUse = newRoleMap;
         }
 
-        usersToSet?.forEach((user) => {user.roleName = mapToUse[user.roleId];});
+        usersToSet?.forEach((user) => {
+            user.roleName = mapToUse[user.roleId];
+        });
         setUsers(usersToSet);
     };
 
@@ -82,7 +84,9 @@ export default function UserTable() {
 
             const userSetter = actuallySetUsers(newRoles);
             // Fetch the second set of data (e.g., Posts) only after the first fetch is successful
-            await  fetchData<User>( userUrl, userSetter, setError, () => {setLoaded(true);});
+            await fetchData<User>(userUrl, userSetter, setError, () => {
+                setLoaded(true);
+            });
         } catch (error) {
             console.error("Error fetching data:", error);
             setError("Data not available; please refresh and try again");
@@ -126,12 +130,12 @@ export default function UserTable() {
 
     }
 
-    const dialog2 = <AlertDialog.Root  open={showDeleteDialog} onOpenChange={handleOpenChange}>
+    const dialog2 = <AlertDialog.Root open={showDeleteDialog} onOpenChange={handleOpenChange}>
         <AlertDialog.Content maxWidth="450px">
             <AlertDialog.Title>Delete User</AlertDialog.Title>
             <AlertDialog.Description size="2">
                 Are you sure? The user
-                <span style={{fontWeight:800}}> {selectedUser?.first} {selectedUser?.last} </span>
+                <span style={{fontWeight: 800}}> {selectedUser?.first} {selectedUser?.last} </span>
                 will be permanently deleted.
             </AlertDialog.Description>
 
@@ -150,9 +154,9 @@ export default function UserTable() {
         </AlertDialog.Content>
     </AlertDialog.Root>;
 
-    const doUserSearch = (name:string) => {
+    const doUserSearch = (name: string) => {
 
-      let trimmedName = name ? name.trim() : '';
+        let trimmedName = name ? name.trim() : '';
 
         let findAll = false;
         if (!trimmedName) {
@@ -161,23 +165,26 @@ export default function UserTable() {
         }
         setLoaded(false);
         setSearchTerm(trimmedName);
-        const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', trimmedName);
-        fetchData<User>(searchUrl,  actuallySetUsers(roles), setError, () => {setLoaded(true);});
+        const searchUrl = findAll ? userUrl : addParamToUrl(userUrl, 'search', trimmedName);
+        fetchData<User>(searchUrl, actuallySetUsers(roles), setError, () => {
+            setLoaded(true);
+        });
     };
 
-   const getSearchBar = () => {
-       const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />
-       return (
+    const getSearchBar = () => {
+        const searchIcon = <MagnifyingGlassIcon height="16" width="16"/>
+        return (
 
-               <div className={styles.tableFilterLine}>
-                   <DebouncedTextField placeholder={"Search by name…"} className={styles.searchBox}
-                                       icon={searchIcon}  onDebouncedChange={doUserSearch}  value={searchTerm}/>
-                   <Button>
-                       <PlusIcon/>
-                       Add User
-                   </Button>
-               </div>
-       )};
+            <div className={styles.tableFilterLine}>
+                <DebouncedTextField placeholder={"Search by name…"} className={styles.searchBox}
+                                    icon={searchIcon} onDebouncedChange={doUserSearch} value={searchTerm}/>
+                <Button>
+                    <PlusIcon/>
+                    Add User
+                </Button>
+            </div>
+        )
+    };
 
     const getTableContents = () => {
         const isLoading = !isLoaded && !error;
@@ -186,7 +193,7 @@ export default function UserTable() {
         if (isLoading) {
             return (<div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                 Loading....
-                <Spinner  style={{width:100, height:100}}/>
+                <Spinner style={{width: 100, height: 100}}/>
             </div>);
         }
         if (hasError) {
@@ -200,7 +207,7 @@ export default function UserTable() {
         const searchFoundNoUsers = () => (!users || users.length === 0) && searchTerm;
 
         return (
-                <div style={{
+            <div style={{
                 border: '1px solid #DDDDE3', padding: '8px',
                 display: 'inline-block', borderRadius: '9px'
             }}>
@@ -225,13 +232,15 @@ export default function UserTable() {
 
                                 <Table.Cell className={roleClass}> {user.roleName} </Table.Cell>
                                 <Table.Cell className={dateClass}> {formatDate(user.createdAt)}</Table.Cell>
-                                <Table.Cell className={dropdownClass}> <TableMenu user={user} onDeletePress={onDeletePress}/> </Table.Cell>
+                                <Table.Cell className={dropdownClass}> <TableMenu user={user}
+                                                                                  onDeletePress={onDeletePress}/>
+                                </Table.Cell>
 
                             </Table.Row>
                         ))}
                     </Table.Body>
                 </Table.Root>
-                    {searchFoundNoUsers() && <ErrorMessage message={`Search for ${searchTerm} found no results`}/>}
+                {searchFoundNoUsers() && <ErrorMessage message={`Search for ${searchTerm} found no results`}/>}
             </div>
 
 

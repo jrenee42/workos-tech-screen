@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {TextField} from "@radix-ui/themes";
 
 import {Role} from './UserTable';
@@ -8,7 +8,7 @@ import {makeChangeListener} from "@/app/Utils/formUtils";
 import {editRoleName} from "@/app/Utils/BackEndConnector";
 
 type Props = {
-    role:Role | undefined;
+    role: Role | undefined;
     isOpen: boolean;
     onOpenClose: (x: boolean) => void;
     onSuccess: () => void;
@@ -18,9 +18,9 @@ export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose, onSucces
 
     const [name, setName] = useState(role?.name ?? '');
 
-    const nameChanger  = makeChangeListener(setName);
+    const nameChanger = makeChangeListener(setName);
 
-    const doEdit = async() => {
+    const doEdit = async () => {
         const successful = await editRoleName(role?.id ?? '', name);
 
         if (successful) {
@@ -29,7 +29,7 @@ export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose, onSucces
         // if more time: add a toast with an error here if not successful
     };
 
-    return (<AlertDialog.Root  open={isOpen} onOpenChange={onOpenClose}>
+    return (<AlertDialog.Root open={isOpen} onOpenChange={onOpenClose}>
         <AlertDialog.Content maxWidth="450px">
             <AlertDialog.Title>Edit Role</AlertDialog.Title>
             <AlertDialog.Description size="2">

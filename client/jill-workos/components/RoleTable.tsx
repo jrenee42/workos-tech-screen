@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Role, roleUrl} from './UserTable';
 
 import {fetchData} from "@/app/Utils/BackEndConnector";
@@ -22,7 +22,9 @@ export default function RoleTable() {
     const [selectedRole, setSelectedRole] = useState<Role>();
 
     const getData = () => {
-        fetchData<Role>(roleUrl, setRoles, setError, () => {setLoaded(true);});
+        fetchData<Role>(roleUrl, setRoles, setError, () => {
+            setLoaded(true);
+        });
     };
 
     useEffect(() => {
@@ -35,7 +37,7 @@ export default function RoleTable() {
         getData();
     }
 
-    const onEditPress = (role:Role) => {
+    const onEditPress = (role: Role) => {
         setSelectedRole(role);
         setShowEditDialog(true);
     };
@@ -47,7 +49,7 @@ export default function RoleTable() {
         if (isLoading) {
             return (<div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                 Loading....
-                <Spinner  style={{width:100, height:100}}/>
+                <Spinner style={{width: 100, height: 100}}/>
             </div>);
         }
         if (hasError) {
@@ -56,10 +58,10 @@ export default function RoleTable() {
 
         const roleClass = classNames(styles.cell, styles.roleNameColumn);
         const dateClass = classNames(styles.cell, styles.roleDateColumn);
-         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
+        const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
 
-         const defaultYesText = <div className={styles.yesText}> Yes</div>;
-         const defaultNoText = <div className={styles.noText}> No </div>;
+        const defaultYesText = <div className={styles.yesText}> Yes</div>;
+        const defaultNoText = <div className={styles.noText}> No </div>;
 
         return (
             <div style={{
@@ -71,9 +73,11 @@ export default function RoleTable() {
                     <Table.Header>
                         <Table.Row>
                             <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Role</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Description</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell
+                                className={styles.columnHeaderCell}>Description</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Joined</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell className={styles.columnHeaderCell}>Default?</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell
+                                className={styles.columnHeaderCell}>Default?</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell className={styles.columnHeaderCell}>&nbsp;</Table.ColumnHeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -86,11 +90,12 @@ export default function RoleTable() {
                                     {role.name}
                                 </Table.RowHeaderCell>
 
-                                <Table.Cell > {role.description} </Table.Cell>
+                                <Table.Cell> {role.description} </Table.Cell>
                                 <Table.Cell className={dateClass}> {formatDate(role.createdAt)}</Table.Cell>
-                                <Table.Cell className={styles.cell}> {role.isDefault && defaultYesText} {!role.isDefault && defaultNoText}</Table.Cell>
+                                <Table.Cell
+                                    className={styles.cell}> {role.isDefault && defaultYesText} {!role.isDefault && defaultNoText}</Table.Cell>
                                 <Table.Cell className={dropdownClass}>
-                                   <RoleTableMenu role={role} onEditPress={onEditPress} />
+                                    <RoleTableMenu role={role} onEditPress={onEditPress}/>
                                 </Table.Cell>
 
                             </Table.Row>
@@ -109,7 +114,9 @@ export default function RoleTable() {
             {showEditDialog && <RoleDialog role={selectedRole}
                                            isOpen={true}
                                            onSuccess={reload}
-                                           onOpenClose={(x:boolean) => {setShowEditDialog(x);}}/>}
+                                           onOpenClose={(x: boolean) => {
+                                               setShowEditDialog(x);
+                                           }}/>}
         </div>
     );
 }

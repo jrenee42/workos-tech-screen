@@ -45,7 +45,7 @@
 }
 
 .tabBox {
-    width:850px;
+    width: 850px;
 }
 
 .tableFilterLine {
@@ -80,7 +80,6 @@
 .noText {
     color: red;
 }
-
 
 .formLine {
     display: flex;
