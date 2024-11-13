@@ -1,9 +1,7 @@
-'use client';
-
 import React, { useState } from 'react';
 import {TextField} from "@radix-ui/themes";
 
-import {Role, roleUrl} from './UserTable';
+import {Role} from './UserTable';
 import {AlertDialog, Button, Flex} from "@radix-ui/themes";
 import styles from './userStyles.module.css';
 import {makeChangeListener} from "@/app/Utils/formUtils";
@@ -29,7 +27,6 @@ export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose, onSucces
             onSuccess();
         }
         // if more time: add a toast with an error here if not successful
-
     };
 
     return (<AlertDialog.Root  open={isOpen} onOpenChange={onOpenClose}>

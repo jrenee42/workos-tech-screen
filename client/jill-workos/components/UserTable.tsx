@@ -104,7 +104,6 @@ export default function UserTable() {
         setShowDeleteDialog(true);
     };
 
-
     // actually do the deletion here
     const deleteSelectedUser = async () => {
 
@@ -152,16 +151,17 @@ export default function UserTable() {
     </AlertDialog.Root>;
 
     const doUserSearch = (name:string) => {
-         
+
+      let trimmedName = name ? name.trim() : '';
 
         let findAll = false;
-        if (!name) {
-            name = '';
+        if (!trimmedName) {
+            trimmedName = '';
             findAll = true;
         }
         setLoaded(false);
-        setSearchTerm(name);
-        const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', name);
+        setSearchTerm(trimmedName);
+        const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', trimmedName);
         fetchData<User>(searchUrl,  actuallySetUsers(roles), setError, () => {setLoaded(true);});
     };
 
@@ -175,11 +175,8 @@ export default function UserTable() {
                    <Button>
                        <PlusIcon/>
                        Add User
-
                    </Button>
-
                </div>
-
        )};
 
     const getTableContents = () => {
@@ -200,6 +197,7 @@ export default function UserTable() {
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
 
+        const searchFoundNoUsers = () => (!users || users.length === 0) && searchTerm;
 
         return (
                 <div style={{
@@ -233,6 +231,7 @@ export default function UserTable() {
                         ))}
                     </Table.Body>
                 </Table.Root>
+                    {searchFoundNoUsers() && <ErrorMessage message={`Search for ${searchTerm} found no results`}/>}
             </div>
 
 
@@ -244,5 +243,4 @@ export default function UserTable() {
         {getTableContents()}
         {showDeleteDialog && selectedUser && dialog2}
     </div>;
-
 }
