@@ -1,8 +1,9 @@
 import React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import "./styles.css";
 import {User} from "@/components/UserTable";
+
+import "./styles.css";
 
 type Props = {
    user: User;

@@ -21,7 +21,9 @@ export default function RoleTable() {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [selectedRole, setSelectedRole] = useState<Role>();
 
-    const getData = () => {fetchData<Role>(roleUrl, setRoles, setError, () => {setLoaded(true);});};
+    const getData = () => {
+        fetchData<Role>(roleUrl, setRoles, setError, () => {setLoaded(true);});
+    };
 
     useEffect(() => {
         getData();
@@ -36,7 +38,6 @@ export default function RoleTable() {
     const onEditPress = (role:Role) => {
         setSelectedRole(role);
         setShowEditDialog(true);
-        console.log("would show dialog for: ", role);
     };
 
     const getTableContents = () => {
@@ -89,7 +90,7 @@ export default function RoleTable() {
                                 <Table.Cell className={dateClass}> {formatDate(role.createdAt)}</Table.Cell>
                                 <Table.Cell className={styles.cell}> {role.isDefault && defaultYesText} {!role.isDefault && defaultNoText}</Table.Cell>
                                 <Table.Cell className={dropdownClass}>
-                                   <RoleTableMenu role={role} onEditPress={onEditPress} onSuccess={reload}/>
+                                   <RoleTableMenu role={role} onEditPress={onEditPress} />
                                 </Table.Cell>
 
                             </Table.Row>

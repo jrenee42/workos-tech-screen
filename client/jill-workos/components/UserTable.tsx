@@ -1,14 +1,15 @@
 'use client';
 
-import UserPhoto from "@/components/UserPhoto";
 import {  useEffect, useState} from 'react';
 import {Table, Spinner,  Button, AlertDialog, Flex} from "@radix-ui/themes";
+import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
+import classNames from 'classnames';
 
+import UserPhoto from "@/components/UserPhoto";
 import ErrorMessage from "@/components/ErrorText";
 import TableMenu from "@/components/DropdownMenu/TableMenu";
 import {formatDate} from "@/app/Utils/DateUtils";
-import classNames from 'classnames';
-import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
+
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
 import {addParamToUrl, deleteUser, fetchData} from "@/app/Utils/BackEndConnector";
 
@@ -116,9 +117,10 @@ export default function UserTable() {
         // so...no toasts in radix yet :(
         // will do that tomorrow/later
         // just reload now; if successful
+        // if more time, would add toast/snack bar message feedback here
 
         if (successful) {
-            console.log("it's successful; would reload here (next!)");
+            // reload
             doUserSearch(searchTerm);
 
         }
@@ -150,6 +152,7 @@ export default function UserTable() {
     </AlertDialog.Root>;
 
     const doUserSearch = (name:string) => {
+         
 
         let findAll = false;
         if (!name) {

@@ -1,6 +1,6 @@
 import RoleTable from "@/components/RoleTable";
 import UserTable from "@/components/UserTable";
-import { Tabs, Box, Text } from "@radix-ui/themes";
+import { Tabs, Box } from "@radix-ui/themes";
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
               </Tabs.Content>
           </Box>
       </Tabs.Root>
-    
+
       </div>
   );
 }

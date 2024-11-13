@@ -9,6 +9,7 @@ type Props = {
     value: string;
 };
 
+/** only call the 'onDebouncedChange' method after the user has stopped typing*/
 const DebouncedTextField: React.FC<Props> = ({ onDebouncedChange, icon, placeholder, className, value }) => {
     const [inputValue, setInputValue] = useState(value);
     const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
