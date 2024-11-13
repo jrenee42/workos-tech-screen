@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import {Role, roleUrl, userUrl} from "@/components/UserTable";
+import { roleUrl, userUrl} from "@/components/UserTable";
 
 export async function fetchData<T>(url: string, setter: ((items:T[])=> void), errorSetter:Dispatch<SetStateAction<string>>, onDataReturn?:()=> void  ): Promise<T[]> {
     try {
@@ -62,6 +62,6 @@ const url = `${roleUrl}/${roleId}`;
         url,
         getFetchOptions('PATCH', { name: newName })
     )
-    // const response22 = await response.json()
+
     return (response.status === 200);
 }

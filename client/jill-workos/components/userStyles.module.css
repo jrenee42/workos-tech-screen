@@ -85,4 +85,11 @@
 .formLine {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.formLabel {
+    margin-right: 8px;
 }

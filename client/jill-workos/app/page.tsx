@@ -7,8 +7,8 @@ export default function Home() {
 <div>
       <Tabs.Root defaultValue="users">
           <Tabs.List>
-              <Tabs.Trigger value="users">Users</Tabs.Trigger>
-              <Tabs.Trigger value="roles">Roles</Tabs.Trigger>
+              <Tabs.Trigger value="users" style={{fontSize: 18}}>Users</Tabs.Trigger>
+              <Tabs.Trigger value="roles" style={{fontSize: 18}}>Roles</Tabs.Trigger>
           </Tabs.List>
 
           <Box pt="3">
@@ -21,12 +21,7 @@ export default function Home() {
               </Tabs.Content>
           </Box>
       </Tabs.Root>
-
-
-
-
-
-
+    
       </div>
   );
 }

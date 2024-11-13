@@ -22,25 +22,23 @@ export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose, onSucces
 
     const nameChanger  = makeChangeListener(setName);
 
-
     const doEdit = async() => {
-        console.log("will edit here...", name);
         const successful = await editRoleName(role?.id ?? '', name);
 
         if (successful) {
-            console.log("success! will reload now... TODO");
             onSuccess();
         }
+        // if more time: add a toast with an error here if not successful
 
     };
 
-    const dialog2 = <AlertDialog.Root  open={isOpen} onOpenChange={onOpenClose}>
+    return (<AlertDialog.Root  open={isOpen} onOpenChange={onOpenClose}>
         <AlertDialog.Content maxWidth="450px">
             <AlertDialog.Title>Edit Role</AlertDialog.Title>
             <AlertDialog.Description size="2">
-                Edit Role Name
+
                 <div className={styles.formLine}>
-                    <div> Name:</div>
+                    <div className={styles.formLabel}> Name:</div>
                     <TextField.Root value={name} onChange={nameChanger}/>
                 </div>
 
@@ -59,8 +57,5 @@ export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose, onSucces
                 </AlertDialog.Action>
             </Flex>
         </AlertDialog.Content>
-    </AlertDialog.Root>;
-
-
-    return dialog2;
+    </AlertDialog.Root>);
 }
