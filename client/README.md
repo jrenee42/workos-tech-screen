@@ -51,4 +51,4 @@ I would:
    * I would do that by allowing the user to set one of the non-default roles to be the default;
    * because there should always be one default role.
    * if the backend doesn't set the new one as the default and the previous default as *not* the default, then I would handle it on the frontend
-  
+* sometimes the roles don't load on the users tab; would add better logic to prevent that and fail more gracefully as well
