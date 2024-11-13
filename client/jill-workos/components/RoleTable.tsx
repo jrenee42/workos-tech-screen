@@ -21,11 +21,17 @@ export default function RoleTable() {
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [selectedRole, setSelectedRole] = useState<Role>();
 
+    const getData = () => {fetchData<Role>(roleUrl, setRoles, setError, () => {setLoaded(true);});};
 
     useEffect(() => {
-        fetchData<Role>(roleUrl, setRoles, setError, () => {setLoaded(true);});
+        getData();
     }, []);
 
+    const reload = () => {
+        setLoaded(false);
+        setError('');
+        getData();
+    }
 
     const onEditPress = (role:Role) => {
         setSelectedRole(role);
@@ -83,7 +89,7 @@ export default function RoleTable() {
                                 <Table.Cell className={dateClass}> {formatDate(role.createdAt)}</Table.Cell>
                                 <Table.Cell className={styles.cell}> {role.isDefault && defaultYesText} {!role.isDefault && defaultNoText}</Table.Cell>
                                 <Table.Cell className={dropdownClass}>
-                                   <RoleTableMenu role={role} onEditPress={onEditPress}/>
+                                   <RoleTableMenu role={role} onEditPress={onEditPress} onSuccess={reload}/>
                                 </Table.Cell>
 
                             </Table.Row>
@@ -99,7 +105,10 @@ export default function RoleTable() {
     return (
         <div className={styles.tabBox}>
             {getTableContents()}
-            {showEditDialog && <RoleDialog role={selectedRole} isOpen={true} onOpenClose={(x:boolean) => {setShowEditDialog(x);}}/>}
+            {showEditDialog && <RoleDialog role={selectedRole}
+                                           isOpen={true}
+                                           onSuccess={reload}
+                                           onOpenClose={(x:boolean) => {setShowEditDialog(x);}}/>}
         </div>
     );
 }

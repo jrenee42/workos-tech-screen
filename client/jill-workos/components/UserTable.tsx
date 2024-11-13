@@ -1,8 +1,9 @@
 'use client';
+
 import UserPhoto from "@/components/UserPhoto";
 import {  useEffect, useState} from 'react';
 import {Table, Spinner,  Button, AlertDialog, Flex} from "@radix-ui/themes";
-import styles from './userStyles.module.css';
+
 import ErrorMessage from "@/components/ErrorText";
 import TableMenu from "@/components/DropdownMenu/TableMenu";
 import {formatDate} from "@/app/Utils/DateUtils";
@@ -11,6 +12,7 @@ import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
 import {addParamToUrl, deleteUser, fetchData} from "@/app/Utils/BackEndConnector";
 
+import styles from './userStyles.module.css';
 
 export type User = {
     createdAt: Date;
@@ -102,10 +104,9 @@ export default function UserTable() {
     };
 
 
-
     // actually do the deletion here
     const deleteSelectedUser = async () => {
-        console.log('will actually delete:', selectedUser);
+
         // send deletion request with an await; if successful show success toast
         const successful = await deleteUser(selectedUser?.id);
         // and then reload the users (with the same search term we currently have!

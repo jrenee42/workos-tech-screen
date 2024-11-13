@@ -52,12 +52,16 @@ export async function deleteUser(userId?:string) {
 
 
 export async function editRoleName(roleId: string, newName: string) {
+    if (!roleId || roleId === '') {
+        return false;
+    }
+
 const url = `${roleUrl}/${roleId}`;
 
     const response = await fetch(
         url,
         getFetchOptions('PATCH', { name: newName })
     )
-    const response22 = await response.json()
-    return (response22.status === 200);
+    // const response22 = await response.json()
+    return (response.status === 200);
 }

@@ -13,9 +13,10 @@ type Props = {
     role:Role | undefined;
     isOpen: boolean;
     onOpenClose: (x: boolean) => void;
+    onSuccess: () => void;
 };
 
-export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose}) => {
+export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose, onSuccess}) => {
 
     const [name, setName] = useState(role?.name ?? '');
 
@@ -24,14 +25,14 @@ export const RoleDialog: React.FC<Props> = ({role, isOpen, onOpenClose}) => {
 
     const doEdit = async() => {
         console.log("will edit here...", name);
-        const successful = editRoleName(role.id, name);
+        const successful = await editRoleName(role?.id ?? '', name);
 
         if (successful) {
             console.log("success! will reload now... TODO");
+            onSuccess();
         }
 
     };
-
 
     const dialog2 = <AlertDialog.Root  open={isOpen} onOpenChange={onOpenClose}>
         <AlertDialog.Content maxWidth="450px">
