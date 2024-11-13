@@ -1,6 +1,6 @@
 'use client';
 import UserPhoto from "@/components/UserPhoto";
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState} from 'react';
 import {Table, Spinner, TextField, Button} from "@radix-ui/themes";
 import styles from './userStyles.module.css';
 import ErrorMessage from "@/components/ErrorText";
@@ -17,23 +17,29 @@ export type User = {
     createdAt: Date;
     first: string;
     id: string;
-    last : string;
+    last: string;
     photo: string;
-    roleId : string;
+    roleId: string;
     updatedAt: Date;
     roleName?: string;
 }
 
 export type Role = {
-    createdAt : Date;
+    createdAt: Date;
     description: string;
-    id : string;
+    id: string;
     isDefault: boolean;
-    name : string;
-    updatedAt : Date;
+    name: string;
+    updatedAt: Date;
 }
 
+type StringMap = {
+    [key: string]: string;
+};
 
+function isStringMapEmpty(map: StringMap): boolean {
+    return Object.keys(map).length === 0;
+}
 
 const userUrl = 'http://localhost:3002/users';
 const roleUrl = 'http://localhost:3002/roles';
@@ -45,21 +51,40 @@ export default function UserTable() {
     const [isLoaded, setLoaded] = useState(false);
     const [error, setError] = useState<string>('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [roleMap, setRoleMap] = useState<StringMap>({});
 
-    const actuallySetUsers = (usersToSet) => {
-      // make map of id=> role name for the roles
-      // then use that to set the roleName inside the user
-        // save this in the object too; in the state so that if it's already made; don't re-make it.
-        // TODO
+    const multiply = (a: number) => (b: number) => a * b;
+
+// Usage
+    const multiplyBy2 = multiply(2); // Returns a function that multiplies by 2
+
+
+    const actuallySetUsers = (newRoles: Role[]) => (usersToSet: User[]) => {
+        let mapToUse = roleMap;
+        
+        // make map of id=> role name for the roles; only if it doesn't already exist
+        if (isStringMapEmpty(roleMap)) {
+            const newRoleMap: StringMap = {};
+            newRoles?.forEach((role: Role) => {
+                newRoleMap[role.id] = role.name;
+            })
+            setRoleMap(newRoleMap);
+
+            mapToUse = newRoleMap;
+        }
+
+        usersToSet.forEach((user) => {user.roleName = mapToUse[user.roleId];});
+        setUsers(usersToSet);
     };
 
     const fetchSequentialData = async () => {
         try {
             // Fetch the first set of data (e.g., Users)
-            await fetchData<Role>(roleUrl, setRoles, setError);
+            const newRoles = await fetchData<Role>(roleUrl, setRoles, setError);
 
+            const userSetter = actuallySetUsers(newRoles);
             // Fetch the second set of data (e.g., Posts) only after the first fetch is successful
-            await  fetchData<User>( userUrl, setUsers, setError, () => {setLoaded(true);});
+            await  fetchData<User>( userUrl, userSetter, setError, () => {setLoaded(true);});
         } catch (error) {
             console.error("Error fetching data:", error);
             setError("Data not available; please refresh and try again");
@@ -82,7 +107,7 @@ export default function UserTable() {
            setLoaded(false);
            setSearchTerm(name);
            const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', name);
-           fetchData<User>(searchUrl,  setUsers, setError, () => {setLoaded(true);});
+           fetchData<User>(searchUrl,  actuallySetUsers(roles), setError, () => {setLoaded(true);});
        };
 
        const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />
@@ -145,7 +170,7 @@ export default function UserTable() {
                                     <UserPhoto url={user.photo} name={`${user.first} ${user.last}`}/>
                                 </Table.RowHeaderCell>
 
-                                <Table.Cell className={roleClass}> hi 22 </Table.Cell>
+                                <Table.Cell className={roleClass}> {user.roleName} </Table.Cell>
                                 <Table.Cell className={dateClass}> {formatDate(user.createdAt)}</Table.Cell>
                                 <Table.Cell className={dropdownClass}> <TableMenu user={user}/> </Table.Cell>
 
