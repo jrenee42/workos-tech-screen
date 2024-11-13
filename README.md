@@ -90,3 +90,6 @@ In your forked repository, include a README that explains:
 - What you would improve or do differently if you had more time.
 
 Once you're ready, share the URL to your GitHub repository with us. Make sure your code runs locally based on the instructions in your README.
+
+## Frontend server
+see the README in the client directory on how to start.

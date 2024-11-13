@@ -2,6 +2,14 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Install all needed packages:
+
+```bash
+npm install --force
+```
+some of the dependencies are not aligned.
+given more time, I would align all the packages properly.
+
 First, run the development server:
 
 ```bash
@@ -52,3 +60,5 @@ I would:
    * because there should always be one default role.
    * if the backend doesn't set the new one as the default and the previous default as *not* the default, then I would handle it on the frontend
 * sometimes the roles don't load on the users tab; would add better logic to prevent that and fail more gracefully as well
+* would clean up DropdownMenu; to use the themes object and clean up unused css
+* There are a few lingering errors; I would fix all of those
