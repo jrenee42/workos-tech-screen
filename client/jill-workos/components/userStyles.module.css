@@ -80,3 +80,9 @@
 .noText {
     color: red;
 }
+
+
+.formLine {
+    display: flex;
+    flex-direction: row;
+}

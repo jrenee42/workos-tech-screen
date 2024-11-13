@@ -9,7 +9,7 @@ import {formatDate} from "@/app/Utils/DateUtils";
 import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
-import {addParamToUrl, deleteUser, fetchData} from "@/app/Utils/DataFetcher";
+import {addParamToUrl, deleteUser, fetchData} from "@/app/Utils/BackEndConnector";
 
 
 export type User = {

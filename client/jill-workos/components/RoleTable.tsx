@@ -3,23 +3,35 @@
 import React, { useEffect, useState } from 'react';
 import {Role, roleUrl} from './UserTable';
 
-import styles from './userStyles.module.css';
-import {fetchData} from "@/app/Utils/DataFetcher";
+import {fetchData} from "@/app/Utils/BackEndConnector";
 import {Spinner, Table} from "@radix-ui/themes";
 import ErrorMessage from "@/components/ErrorText";
 import classNames from "classnames";
 import {formatDate} from "@/app/Utils/DateUtils";
-import {CheckIcon, DotsHorizontalIcon} from "@radix-ui/react-icons";
+
+import RoleTableMenu from "@/components/DropdownMenu/RoleTableMenu";
+import {RoleDialog} from "@/components/RoleDialog";
+
+import styles from './userStyles.module.css';
 
 export default function RoleTable() {
     const [roles, setRoles] = useState<Role[]>([]);
     const [error, setError] = useState<string>('');
     const [isLoaded, setLoaded] = useState(false);
+    const [showEditDialog, setShowEditDialog] = useState(false);
+    const [selectedRole, setSelectedRole] = useState<Role>();
+
 
     useEffect(() => {
         fetchData<Role>(roleUrl, setRoles, setError, () => {setLoaded(true);});
     }, []);
 
+
+    const onEditPress = (role:Role) => {
+        setSelectedRole(role);
+        setShowEditDialog(true);
+        console.log("would show dialog for: ", role);
+    };
 
     const getTableContents = () => {
         const isLoading = !isLoaded && !error;
@@ -70,7 +82,9 @@ export default function RoleTable() {
                                 <Table.Cell > {role.description} </Table.Cell>
                                 <Table.Cell className={dateClass}> {formatDate(role.createdAt)}</Table.Cell>
                                 <Table.Cell className={styles.cell}> {role.isDefault && defaultYesText} {!role.isDefault && defaultNoText}</Table.Cell>
-                                <Table.Cell className={dropdownClass}>         <DotsHorizontalIcon   style={{width: 20, height: 20}} /> </Table.Cell>
+                                <Table.Cell className={dropdownClass}>
+                                   <RoleTableMenu role={role} onEditPress={onEditPress}/>
+                                </Table.Cell>
 
                             </Table.Row>
                         ))}
@@ -85,6 +99,7 @@ export default function RoleTable() {
     return (
         <div className={styles.tabBox}>
             {getTableContents()}
+            {showEditDialog && <RoleDialog role={selectedRole} isOpen={true} onOpenClose={(x:boolean) => {setShowEditDialog(x);}}/>}
         </div>
     );
 }

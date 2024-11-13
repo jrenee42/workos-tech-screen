@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import {userUrl} from "@/components/UserTable";
-
-
+import {Role, roleUrl, userUrl} from "@/components/UserTable";
 
 export async function fetchData<T>(url: string, setter: ((items:T[])=> void), errorSetter:Dispatch<SetStateAction<string>>, onDataReturn?:()=> void  ): Promise<T[]> {
     try {
@@ -50,4 +48,16 @@ export async function deleteUser(userId?:string) {
     const response = await fetch(userUrl + '/' + userId)
 
     return (response.status === 404);
+}
+
+
+export async function editRoleName(roleId: string, newName: string) {
+const url = `${roleUrl}/${roleId}`;
+
+    const response = await fetch(
+        url,
+        getFetchOptions('PATCH', { name: newName })
+    )
+    const response22 = await response.json()
+    return (response22.status === 200);
 }
