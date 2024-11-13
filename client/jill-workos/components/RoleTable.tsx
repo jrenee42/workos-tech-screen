@@ -39,6 +39,8 @@ export default function RoleTable() {
         const dateClass = classNames(styles.cell, styles.roleDateColumn);
          const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
 
+         const defaultYesText = <div className={styles.yesText}> Yes</div>;
+         const defaultNoText = <div className={styles.noText}> No </div>;
 
         return (
             <div style={{
@@ -67,7 +69,7 @@ export default function RoleTable() {
 
                                 <Table.Cell > {role.description} </Table.Cell>
                                 <Table.Cell className={dateClass}> {formatDate(role.createdAt)}</Table.Cell>
-                                <Table.Cell> {role.isDefault && <CheckIcon style={{width:20, height: 20, color: 'green'}}/>}</Table.Cell>
+                                <Table.Cell className={styles.cell}> {role.isDefault && defaultYesText} {!role.isDefault && defaultNoText}</Table.Cell>
                                 <Table.Cell className={dropdownClass}>         <DotsHorizontalIcon   style={{width: 20, height: 20}} /> </Table.Cell>
 
                             </Table.Row>

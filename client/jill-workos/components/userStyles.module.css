@@ -72,3 +72,11 @@
 .roleDateColumn {
     width: 125px;
 }
+
+.yesText {
+    color: green;
+}
+
+.noText {
+    color: red;
+}
