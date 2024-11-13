@@ -96,18 +96,24 @@ export default function UserTable() {
         setShowDeleteDialog(isOpen);
     };
 
+    // shows the dialog
     const onDeletePress = (user: User) => {
-        console.log("will delete....?maybe/", user);
         setSelectedUser(user);
         setShowDeleteDialog(true);
     };
 
+    const deleteSelectedUser = () => {
+        console.log('will actually delete:', selectedUser);
+    }
+
+
     const dialog2 = <AlertDialog.Root  open={showDeleteDialog} onOpenChange={handleOpenChange}>
         <AlertDialog.Content maxWidth="450px">
-            <AlertDialog.Title>Revoke access</AlertDialog.Title>
+            <AlertDialog.Title>Delete User</AlertDialog.Title>
             <AlertDialog.Description size="2">
-                Are you sure? This application will no longer be accessible and any
-                existing sessions will be expired.
+                Are you sure? The user
+                <span style={{fontWeight:800}}> {selectedUser?.first} {selectedUser?.last} </span>
+                will be permanently deleted.
             </AlertDialog.Description>
 
             <Flex gap="3" mt="4" justify="end">
@@ -117,14 +123,14 @@ export default function UserTable() {
                     </Button>
                 </AlertDialog.Cancel>
                 <AlertDialog.Action>
-                    <Button variant="solid" color="red">
-                        Revoke access
+                    <Button variant="outlined" color="red" onClick={deleteSelectedUser}>
+                        Delete user
                     </Button>
                 </AlertDialog.Action>
             </Flex>
         </AlertDialog.Content>
     </AlertDialog.Root>;
-    
+
 
    const getSearchBar = () => {
        const doUserSearch = (name:string) => {
@@ -217,7 +223,7 @@ export default function UserTable() {
     return <div className={styles.tabBox}>
         {getSearchBar()}
         {getTableContents()}
-        {showDeleteDialog && dialog2}
+        {showDeleteDialog && selectedUser && dialog2}
     </div>;
 
 }

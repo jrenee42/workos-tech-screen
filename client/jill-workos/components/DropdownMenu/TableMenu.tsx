@@ -11,8 +11,7 @@ type Props = {
 
 
 const TableMenu: React.FC<Props> = ({ user, onDeletePress }) => {
-    console.log("preparing menu for: ", user);
-    return (
+     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
                 <DotsHorizontalIcon   style={{width: 20, height: 20}} />
