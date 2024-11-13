@@ -1,14 +1,13 @@
 'use client';
 import UserPhoto from "@/components/UserPhoto";
-import { SetStateAction, useEffect, useState} from 'react';
-import {Table, Spinner, TextField, Button, AlertDialog, Flex} from "@radix-ui/themes";
+import {  useEffect, useState} from 'react';
+import {Table, Spinner,  Button, AlertDialog, Flex} from "@radix-ui/themes";
 import styles from './userStyles.module.css';
 import ErrorMessage from "@/components/ErrorText";
 import TableMenu from "@/components/DropdownMenu/TableMenu";
 import {formatDate} from "@/app/Utils/DateUtils";
 import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
-import {makeChangeListener} from "@/app/Utils/formUtils";
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
 import {addParamToUrl, deleteUser, fetchData} from "@/app/Utils/DataFetcher";
 
@@ -69,7 +68,7 @@ export default function UserTable() {
             mapToUse = newRoleMap;
         }
 
-        usersToSet.forEach((user) => {user.roleName = mapToUse[user.roleId];});
+        usersToSet?.forEach((user) => {user.roleName = mapToUse[user.roleId];});
         setUsers(usersToSet);
     };
 
@@ -102,6 +101,8 @@ export default function UserTable() {
         setShowDeleteDialog(true);
     };
 
+
+
     // actually do the deletion here
     const deleteSelectedUser = async () => {
         console.log('will actually delete:', selectedUser);
@@ -117,6 +118,8 @@ export default function UserTable() {
 
         if (successful) {
             console.log("it's successful; would reload here (next!)");
+            doUserSearch(searchTerm);
+
         }
 
     }
@@ -137,7 +140,7 @@ export default function UserTable() {
                     </Button>
                 </AlertDialog.Cancel>
                 <AlertDialog.Action>
-                    <Button variant="outlined" color="red" onClick={deleteSelectedUser}>
+                    <Button variant="outline" color="red" onClick={deleteSelectedUser}>
                         Delete user
                     </Button>
                 </AlertDialog.Action>
@@ -145,21 +148,20 @@ export default function UserTable() {
         </AlertDialog.Content>
     </AlertDialog.Root>;
 
+    const doUserSearch = (name:string) => {
+
+        let findAll = false;
+        if (!name) {
+            name = '';
+            findAll = true;
+        }
+        setLoaded(false);
+        setSearchTerm(name);
+        const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', name);
+        fetchData<User>(searchUrl,  actuallySetUsers(roles), setError, () => {setLoaded(true);});
+    };
 
    const getSearchBar = () => {
-       const doUserSearch = (name:string) => {
-
-           let findAll = false;
-           if (!name) {
-               name = '';
-               findAll = true;
-           }
-           setLoaded(false);
-           setSearchTerm(name);
-           const searchUrl =  findAll? userUrl :   addParamToUrl(userUrl, 'search', name);
-           fetchData<User>(searchUrl,  actuallySetUsers(roles), setError, () => {setLoaded(true);});
-       };
-
        const searchIcon =  <MagnifyingGlassIcon height="16" width="16" />
        return (
 
@@ -213,7 +215,7 @@ export default function UserTable() {
                     </Table.Header>
 
                     <Table.Body>
-                        {users.map((user, index) => (
+                        {users?.map((user, index) => (
                             <Table.Row key={index}>
 
                                 <Table.RowHeaderCell>
