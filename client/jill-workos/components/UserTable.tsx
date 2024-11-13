@@ -41,7 +41,7 @@ function isStringMapEmpty(map: StringMap): boolean {
 }
 
 export const userUrl = 'http://localhost:3002/users';
-const roleUrl = 'http://localhost:3002/roles';
+export const roleUrl = 'http://localhost:3002/roles';
 
 export default function UserTable() {
     const [users, setUsers] = useState<User[]>([]);
@@ -192,7 +192,6 @@ export default function UserTable() {
             return <ErrorMessage message={error}/>;
         }
 
-        console.log('...ok; displaying: ', users, roles);
         const roleClass = classNames(styles.cell, styles.roleColumn);
         const dateClass = classNames(styles.cell, styles.dateColumn);
         const dropdownClass = classNames(styles.cell, styles.dropdownColumn);
