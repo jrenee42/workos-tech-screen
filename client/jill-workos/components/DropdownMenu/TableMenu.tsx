@@ -6,10 +6,11 @@ import {User} from "@/components/UserTable";
 
 type Props = {
    user: User;
+   onDeletePress: (user:User) => void;
 };
 
 
-const TableMenu: React.FC<Props> = ({ user }) => {
+const TableMenu: React.FC<Props> = ({ user, onDeletePress }) => {
     console.log("preparing menu for: ", user);
     return (
         <DropdownMenu.Root>
@@ -22,7 +23,8 @@ const TableMenu: React.FC<Props> = ({ user }) => {
                     <DropdownMenu.Item className="DropdownMenuItem">
                         Edit User
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className="DropdownMenuItem">
+                    <DropdownMenu.Item className="DropdownMenuItem"
+                                       onSelect={()=> {onDeletePress(user)}}>
                         Delete User
                     </DropdownMenu.Item>
                 </DropdownMenu.Content>

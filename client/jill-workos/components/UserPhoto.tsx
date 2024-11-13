@@ -1,7 +1,6 @@
 'use client';
 import styles from './userStyles.module.css';
 
-
 type Props = {
     url: string;
     name: string;

@@ -1,7 +1,7 @@
 'use client';
 import UserPhoto from "@/components/UserPhoto";
 import { SetStateAction, useEffect, useState} from 'react';
-import {Table, Spinner, TextField, Button} from "@radix-ui/themes";
+import {Table, Spinner, TextField, Button, AlertDialog, Flex} from "@radix-ui/themes";
 import styles from './userStyles.module.css';
 import ErrorMessage from "@/components/ErrorText";
 import TableMenu from "@/components/DropdownMenu/TableMenu";
@@ -52,16 +52,12 @@ export default function UserTable() {
     const [error, setError] = useState<string>('');
     const [searchTerm, setSearchTerm] = useState('');
     const [roleMap, setRoleMap] = useState<StringMap>({});
-
-    const multiply = (a: number) => (b: number) => a * b;
-
-// Usage
-    const multiplyBy2 = multiply(2); // Returns a function that multiplies by 2
-
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<User>();
 
     const actuallySetUsers = (newRoles: Role[]) => (usersToSet: User[]) => {
         let mapToUse = roleMap;
-        
+
         // make map of id=> role name for the roles; only if it doesn't already exist
         if (isStringMapEmpty(roleMap)) {
             const newRoleMap: StringMap = {};
@@ -95,6 +91,40 @@ export default function UserTable() {
     useEffect(() => {
         fetchSequentialData();
     }, []);
+
+    const handleOpenChange = (isOpen: boolean) => {
+        setShowDeleteDialog(isOpen);
+    };
+
+    const onDeletePress = (user: User) => {
+        console.log("will delete....?maybe/", user);
+        setSelectedUser(user);
+        setShowDeleteDialog(true);
+    };
+
+    const dialog2 = <AlertDialog.Root  open={showDeleteDialog} onOpenChange={handleOpenChange}>
+        <AlertDialog.Content maxWidth="450px">
+            <AlertDialog.Title>Revoke access</AlertDialog.Title>
+            <AlertDialog.Description size="2">
+                Are you sure? This application will no longer be accessible and any
+                existing sessions will be expired.
+            </AlertDialog.Description>
+
+            <Flex gap="3" mt="4" justify="end">
+                <AlertDialog.Cancel>
+                    <Button variant="soft" color="gray">
+                        Cancel
+                    </Button>
+                </AlertDialog.Cancel>
+                <AlertDialog.Action>
+                    <Button variant="solid" color="red">
+                        Revoke access
+                    </Button>
+                </AlertDialog.Action>
+            </Flex>
+        </AlertDialog.Content>
+    </AlertDialog.Root>;
+    
 
    const getSearchBar = () => {
        const doUserSearch = (name:string) => {
@@ -172,7 +202,7 @@ export default function UserTable() {
 
                                 <Table.Cell className={roleClass}> {user.roleName} </Table.Cell>
                                 <Table.Cell className={dateClass}> {formatDate(user.createdAt)}</Table.Cell>
-                                <Table.Cell className={dropdownClass}> <TableMenu user={user}/> </Table.Cell>
+                                <Table.Cell className={dropdownClass}> <TableMenu user={user} onDeletePress={onDeletePress}/> </Table.Cell>
 
                             </Table.Row>
                         ))}
@@ -187,6 +217,7 @@ export default function UserTable() {
     return <div className={styles.tabBox}>
         {getSearchBar()}
         {getTableContents()}
+        {showDeleteDialog && dialog2}
     </div>;
 
 }
