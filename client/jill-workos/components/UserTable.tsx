@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import {MagnifyingGlassIcon, PlusIcon} from "@radix-ui/react-icons";
 import {makeChangeListener} from "@/app/Utils/formUtils";
 import DebouncedTextField from "@/components/basic/DebouncedTextField";
-import {addParamToUrl, fetchData} from "@/app/Utils/DataFetcher";
+import {addParamToUrl, deleteUser, fetchData} from "@/app/Utils/DataFetcher";
 
 
 export type User = {
@@ -41,7 +41,7 @@ function isStringMapEmpty(map: StringMap): boolean {
     return Object.keys(map).length === 0;
 }
 
-const userUrl = 'http://localhost:3002/users';
+export const userUrl = 'http://localhost:3002/users';
 const roleUrl = 'http://localhost:3002/roles';
 
 export default function UserTable() {
@@ -102,10 +102,24 @@ export default function UserTable() {
         setShowDeleteDialog(true);
     };
 
-    const deleteSelectedUser = () => {
+    // actually do the deletion here
+    const deleteSelectedUser = async () => {
         console.log('will actually delete:', selectedUser);
-    }
+        // send deletion request with an await; if successful show success toast
+        const successful = await deleteUser(selectedUser?.id);
+        // and then reload the users (with the same search term we currently have!
 
+        // if unsuccessful ;show the error toast
+
+        // so...no toasts in radix yet :(
+        // will do that tomorrow/later
+        // just reload now; if successful
+
+        if (successful) {
+            console.log("it's successful; would reload here (next!)");
+        }
+
+    }
 
     const dialog2 = <AlertDialog.Root  open={showDeleteDialog} onOpenChange={handleOpenChange}>
         <AlertDialog.Content maxWidth="450px">

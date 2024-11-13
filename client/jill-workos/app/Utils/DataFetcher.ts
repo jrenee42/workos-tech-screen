@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import {userUrl} from "@/components/UserTable";
 
 
 
@@ -25,4 +26,28 @@ export function addParamToUrl(url:string, param:string, value:string) {
     const urlObj = new URL(url);
     urlObj.searchParams.set(param, value);
     return urlObj.toString();
+}
+
+// copied from the api test
+function getFetchOptions(method: string, body?: unknown) {
+    return body
+        ? {
+            method,
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        }
+        : { method }
+}
+
+export async function deleteUser(userId?:string) {
+    if (!userId) {
+        return;
+    }
+    await fetch(userUrl + '/' + userId, getFetchOptions('DELETE'))
+
+    const response = await fetch(userUrl + '/' + userId)
+
+    return (response.status === 404);
 }
